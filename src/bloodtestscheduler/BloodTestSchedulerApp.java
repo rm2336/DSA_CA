@@ -15,6 +15,8 @@ public class BloodTestSchedulerApp {
      */
     public static void main(String[] args) {
         // TODO code application logic here
+        BloodTestSchedulerGUI gui = new BloodTestSchedulerGUI();
+        gui.setVisible(true);
     }
     
 }

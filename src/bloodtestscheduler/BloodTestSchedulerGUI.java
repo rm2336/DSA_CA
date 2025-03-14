@@ -26,21 +26,74 @@ public class BloodTestSchedulerGUI extends javax.swing.JFrame {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
+        jScrollPane1 = new javax.swing.JScrollPane();
+        displayTA = new javax.swing.JTextArea();
+        queueBTN = new javax.swing.JButton();
+        patientsBTN = new javax.swing.JButton();
+        addBTN = new javax.swing.JButton();
+        noshowsBTN = new javax.swing.JButton();
+
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        setTitle("Blood Test Scheduler");
+
+        displayTA.setEditable(false);
+        displayTA.setColumns(20);
+        displayTA.setRows(5);
+        displayTA.setCursor(new java.awt.Cursor(java.awt.Cursor.TEXT_CURSOR));
+        displayTA.setEnabled(false);
+        jScrollPane1.setViewportView(displayTA);
+
+        queueBTN.setText("View Queue");
+        queueBTN.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                queueBTNActionPerformed(evt);
+            }
+        });
+
+        patientsBTN.setText("View Patients");
+
+        addBTN.setText("Add Patient");
+
+        noshowsBTN.setText("View No-Shows");
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 400, Short.MAX_VALUE)
+            .addGroup(layout.createSequentialGroup()
+                .addGap(21, 21, 21)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addGroup(layout.createSequentialGroup()
+                        .addComponent(queueBTN)
+                        .addGap(18, 18, 18)
+                        .addComponent(patientsBTN)
+                        .addGap(18, 18, 18)
+                        .addComponent(noshowsBTN)
+                        .addGap(28, 28, 28)
+                        .addComponent(addBTN, javax.swing.GroupLayout.PREFERRED_SIZE, 103, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 473, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addContainerGap(49, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 300, Short.MAX_VALUE)
+            .addGroup(layout.createSequentialGroup()
+                .addGap(20, 20, 20)
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 133, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(18, 18, 18)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(queueBTN)
+                    .addComponent(patientsBTN)
+                    .addComponent(addBTN)
+                    .addComponent(noshowsBTN))
+                .addContainerGap(106, Short.MAX_VALUE))
         );
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
+
+    private void queueBTNActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_queueBTNActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_queueBTNActionPerformed
 
     /**
      * @param args the command line arguments
@@ -78,5 +131,11 @@ public class BloodTestSchedulerGUI extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton addBTN;
+    private javax.swing.JTextArea displayTA;
+    private javax.swing.JScrollPane jScrollPane1;
+    private javax.swing.JButton noshowsBTN;
+    private javax.swing.JButton patientsBTN;
+    private javax.swing.JButton queueBTN;
     // End of variables declaration//GEN-END:variables
 }
