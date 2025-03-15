@@ -4,12 +4,15 @@
  */
 package bloodtestscheduler;
 
+import java.util.ArrayList;
+import javax.swing.JOptionPane;
+
 /**
  *
  * @author rokom
  */
 public class BloodTestSchedulerGUI extends javax.swing.JFrame {
-
+    private ArrayList<GP> gpList = new ArrayList<>();
     /**
      * Creates new form BloodTestSchedulerGUI
      */
@@ -30,8 +33,12 @@ public class BloodTestSchedulerGUI extends javax.swing.JFrame {
         displayTA = new javax.swing.JTextArea();
         queueBTN = new javax.swing.JButton();
         patientsBTN = new javax.swing.JButton();
-        addBTN = new javax.swing.JButton();
+        addPatientBTN = new javax.swing.JButton();
         noshowsBTN = new javax.swing.JButton();
+        saveBTN = new javax.swing.JButton();
+        loadBTN = new javax.swing.JButton();
+        newBTN = new javax.swing.JButton();
+        addDoctorBTN = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setTitle("Blood Test Scheduler");
@@ -52,9 +59,27 @@ public class BloodTestSchedulerGUI extends javax.swing.JFrame {
 
         patientsBTN.setText("View Patients");
 
-        addBTN.setText("Add Patient");
+        addPatientBTN.setText("Add Patient");
+        addPatientBTN.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                addPatientBTNActionPerformed(evt);
+            }
+        });
 
         noshowsBTN.setText("View No-Shows");
+
+        saveBTN.setText("Save");
+
+        loadBTN.setText("Load");
+
+        newBTN.setText("New Appointment");
+
+        addDoctorBTN.setText("Add GP");
+        addDoctorBTN.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                addDoctorBTNActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -63,16 +88,28 @@ public class BloodTestSchedulerGUI extends javax.swing.JFrame {
             .addGroup(layout.createSequentialGroup()
                 .addGap(21, 21, 21)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                            .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 473, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addGroup(layout.createSequentialGroup()
+                                .addComponent(queueBTN)
+                                .addGap(18, 18, 18)
+                                .addComponent(patientsBTN)
+                                .addGap(18, 18, 18)
+                                .addComponent(noshowsBTN)
+                                .addGap(28, 28, 28)
+                                .addComponent(addPatientBTN, javax.swing.GroupLayout.PREFERRED_SIZE, 103, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addGap(25, 25, 25)))
+                        .addGroup(layout.createSequentialGroup()
+                            .addComponent(saveBTN)
+                            .addGap(28, 28, 28)
+                            .addComponent(loadBTN)))
                     .addGroup(layout.createSequentialGroup()
-                        .addComponent(queueBTN)
-                        .addGap(18, 18, 18)
-                        .addComponent(patientsBTN)
-                        .addGap(18, 18, 18)
-                        .addComponent(noshowsBTN)
-                        .addGap(28, 28, 28)
-                        .addComponent(addBTN, javax.swing.GroupLayout.PREFERRED_SIZE, 103, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 473, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addContainerGap(49, Short.MAX_VALUE))
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                            .addComponent(newBTN)
+                            .addComponent(addDoctorBTN, javax.swing.GroupLayout.PREFERRED_SIZE, 128, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addGap(11, 11, 11)))
+                .addContainerGap(24, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -83,9 +120,21 @@ public class BloodTestSchedulerGUI extends javax.swing.JFrame {
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(queueBTN)
                     .addComponent(patientsBTN)
-                    .addComponent(addBTN)
+                    .addComponent(addPatientBTN)
                     .addComponent(noshowsBTN))
-                .addContainerGap(106, Short.MAX_VALUE))
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(layout.createSequentialGroup()
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(saveBTN)
+                            .addComponent(loadBTN))
+                        .addGap(18, 18, 18))
+                    .addGroup(layout.createSequentialGroup()
+                        .addGap(18, 18, 18)
+                        .addComponent(addDoctorBTN)
+                        .addGap(18, 18, 18)
+                        .addComponent(newBTN)
+                        .addContainerGap(24, Short.MAX_VALUE))))
         );
 
         pack();
@@ -94,6 +143,29 @@ public class BloodTestSchedulerGUI extends javax.swing.JFrame {
     private void queueBTNActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_queueBTNActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_queueBTNActionPerformed
+
+    private void addDoctorBTNActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_addDoctorBTNActionPerformed
+        // TODO add your handling code here:
+        String name = JOptionPane.showInputDialog("Enter GP's name: ");
+        String address = JOptionPane.showInputDialog("Enter GP's address: ");
+        String phoneNo = JOptionPane.showInputDialog("Enter GP's phone number: ");
+        GP tempGP = new GP(name, address, phoneNo);
+        gpList.add(tempGP);
+    }//GEN-LAST:event_addDoctorBTNActionPerformed
+
+    private void addPatientBTNActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_addPatientBTNActionPerformed
+        // TODO add your handling code here:
+        String[] priorities = new String[] {"Low", "Medium", "Urgent"};
+        String name = JOptionPane.showInputDialog(rootPane, "Enter patient's name: ");
+        int age = Integer.parseInt(JOptionPane.showInputDialog(rootPane, "Enter patient's age: "));
+        int priority = JOptionPane.showOptionDialog(rootPane, "", "Choose urgency: ", JOptionPane.DEFAULT_OPTION, JOptionPane.PLAIN_MESSAGE, null, priorities, priorities[0]);
+        int isFromWard = JOptionPane.showConfirmDialog(rootPane, "Are they coming from a hospital ward?");
+        ArrayList<String> gpNames = new ArrayList<>();
+        for (GP temp : gpList) {
+            gpNames.add(temp.getName());
+        }
+        int gp = JOptionPane.showOptionDialog(rootPane, "", "Choose their designated GP: ", JOptionPane.DEFAULT_OPTION, JOptionPane.PLAIN_MESSAGE, null, gpNames.toArray(), gpNames.get(0));
+    }//GEN-LAST:event_addPatientBTNActionPerformed
 
     /**
      * @param args the command line arguments
@@ -131,11 +203,15 @@ public class BloodTestSchedulerGUI extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JButton addBTN;
+    private javax.swing.JButton addDoctorBTN;
+    private javax.swing.JButton addPatientBTN;
     private javax.swing.JTextArea displayTA;
     private javax.swing.JScrollPane jScrollPane1;
+    private javax.swing.JButton loadBTN;
+    private javax.swing.JButton newBTN;
     private javax.swing.JButton noshowsBTN;
     private javax.swing.JButton patientsBTN;
     private javax.swing.JButton queueBTN;
+    private javax.swing.JButton saveBTN;
     // End of variables declaration//GEN-END:variables
 }

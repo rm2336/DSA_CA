@@ -4,7 +4,8 @@
  */
 package bloodtestscheduler.Interfaces;
 
-import Classes.Node;
+import bloodtestscheduler.Node;
+import bloodtestscheduler.Patient;
 
 /**
  *
@@ -18,14 +19,16 @@ import Classes.Node;
  */
 public interface BinarySearchTree {
     
-    public void insert(Node node);
+    public Node getRoot();
+    
+    public void insert(Patient object, Node currentNode);
     
     public int size();
     
-    public Node search(int query);
+    public Node search(String query, Node currentNode);
     
     public boolean isEmpty();
     
-    public String print();
+    public void print(Node currentNode);
     
 }
