@@ -13,6 +13,9 @@ import javax.swing.JOptionPane;
  */
 public class BloodTestSchedulerGUI extends javax.swing.JFrame {
     private ArrayList<GP> gpList = new ArrayList<>();
+    private PatientPriorityQueue testQueue = new PatientPriorityQueue();
+    private PatientBinaryTree patientTree = new PatientBinaryTree();
+    private int currentIndex = 0;   // keeps track of the currently viewed appointment
     /**
      * Creates new form BloodTestSchedulerGUI
      */
@@ -39,6 +42,11 @@ public class BloodTestSchedulerGUI extends javax.swing.JFrame {
         loadBTN = new javax.swing.JButton();
         newBTN = new javax.swing.JButton();
         addDoctorBTN = new javax.swing.JButton();
+        gpsBTN = new javax.swing.JButton();
+        titleLBL = new javax.swing.JLabel();
+        jButton1 = new javax.swing.JButton();
+        jButton2 = new javax.swing.JButton();
+        jButton3 = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setTitle("Blood Test Scheduler");
@@ -47,6 +55,7 @@ public class BloodTestSchedulerGUI extends javax.swing.JFrame {
         displayTA.setColumns(20);
         displayTA.setRows(5);
         displayTA.setCursor(new java.awt.Cursor(java.awt.Cursor.TEXT_CURSOR));
+        displayTA.setDisabledTextColor(new java.awt.Color(0, 0, 0));
         displayTA.setEnabled(false);
         jScrollPane1.setViewportView(displayTA);
 
@@ -58,6 +67,11 @@ public class BloodTestSchedulerGUI extends javax.swing.JFrame {
         });
 
         patientsBTN.setText("View Patients");
+        patientsBTN.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                patientsBTNActionPerformed(evt);
+            }
+        });
 
         addPatientBTN.setText("Add Patient");
         addPatientBTN.addActionListener(new java.awt.event.ActionListener() {
@@ -73,6 +87,11 @@ public class BloodTestSchedulerGUI extends javax.swing.JFrame {
         loadBTN.setText("Load");
 
         newBTN.setText("New Appointment");
+        newBTN.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                newBTNActionPerformed(evt);
+            }
+        });
 
         addDoctorBTN.setText("Add GP");
         addDoctorBTN.addActionListener(new java.awt.event.ActionListener() {
@@ -81,60 +100,115 @@ public class BloodTestSchedulerGUI extends javax.swing.JFrame {
             }
         });
 
+        gpsBTN.setText("View GPs");
+        gpsBTN.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                gpsBTNActionPerformed(evt);
+            }
+        });
+
+        titleLBL.setText("Blood Test Scheduler");
+
+        jButton1.setText("Current Appointment");
+        jButton1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton1ActionPerformed(evt);
+            }
+        });
+
+        jButton2.setText("Complete");
+        jButton2.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton2ActionPerformed(evt);
+            }
+        });
+
+        jButton3.setText("No-Show");
+        jButton3.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton3ActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addGap(21, 21, 21)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                            .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 473, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addGroup(layout.createSequentialGroup()
-                                .addComponent(queueBTN)
-                                .addGap(18, 18, 18)
-                                .addComponent(patientsBTN)
-                                .addGap(18, 18, 18)
-                                .addComponent(noshowsBTN)
-                                .addGap(28, 28, 28)
-                                .addComponent(addPatientBTN, javax.swing.GroupLayout.PREFERRED_SIZE, 103, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addGap(25, 25, 25)))
-                        .addGroup(layout.createSequentialGroup()
-                            .addComponent(saveBTN)
-                            .addGap(28, 28, 28)
-                            .addComponent(loadBTN)))
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                            .addComponent(newBTN)
-                            .addComponent(addDoctorBTN, javax.swing.GroupLayout.PREFERRED_SIZE, 128, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addGap(11, 11, 11)))
-                .addContainerGap(24, Short.MAX_VALUE))
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(layout.createSequentialGroup()
+                                .addGap(18, 18, 18)
+                                .addComponent(saveBTN)
+                                .addGap(28, 28, 28)
+                                .addComponent(loadBTN))
+                            .addGroup(layout.createSequentialGroup()
+                                .addGap(44, 44, 44)
+                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addComponent(jButton2)
+                                    .addComponent(jButton1)
+                                    .addComponent(jButton3))))
+                        .addGap(214, 214, 214)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(layout.createSequentialGroup()
+                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addComponent(noshowsBTN)
+                                    .addComponent(gpsBTN, javax.swing.GroupLayout.PREFERRED_SIZE, 96, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                .addComponent(newBTN, javax.swing.GroupLayout.PREFERRED_SIZE, 136, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addGroup(layout.createSequentialGroup()
+                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addComponent(queueBTN)
+                                    .addComponent(patientsBTN))
+                                .addGap(89, 89, 89)
+                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addComponent(addPatientBTN)
+                                    .addComponent(addDoctorBTN, javax.swing.GroupLayout.PREFERRED_SIZE, 89, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                .addGap(0, 24, Short.MAX_VALUE))))
+                    .addGroup(layout.createSequentialGroup()
+                        .addGap(99, 99, 99)
+                        .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 514, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addContainerGap())
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                .addGap(0, 0, Short.MAX_VALUE)
+                .addComponent(titleLBL)
+                .addGap(298, 298, 298))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addGap(20, 20, 20)
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 133, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(8, 8, 8)
+                .addComponent(titleLBL)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 123, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(18, 18, 18)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(queueBTN)
-                    .addComponent(patientsBTN)
                     .addComponent(addPatientBTN)
-                    .addComponent(noshowsBTN))
+                    .addComponent(jButton1))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addGap(0, 0, Short.MAX_VALUE)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(saveBTN)
-                            .addComponent(loadBTN))
-                        .addGap(18, 18, 18))
+                            .addComponent(loadBTN)))
                     .addGroup(layout.createSequentialGroup()
-                        .addGap(18, 18, 18)
-                        .addComponent(addDoctorBTN)
-                        .addGap(18, 18, 18)
-                        .addComponent(newBTN)
-                        .addContainerGap(24, Short.MAX_VALUE))))
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(addDoctorBTN)
+                            .addComponent(patientsBTN)
+                            .addComponent(jButton2))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(newBTN, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addGroup(layout.createSequentialGroup()
+                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                                    .addComponent(noshowsBTN)
+                                    .addComponent(jButton3))
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 25, Short.MAX_VALUE)
+                                .addComponent(gpsBTN)))))
+                .addContainerGap())
         );
 
         pack();
@@ -142,6 +216,7 @@ public class BloodTestSchedulerGUI extends javax.swing.JFrame {
 
     private void queueBTNActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_queueBTNActionPerformed
         // TODO add your handling code here:
+        displayTA.setText(testQueue.printQueue());
     }//GEN-LAST:event_queueBTNActionPerformed
 
     private void addDoctorBTNActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_addDoctorBTNActionPerformed
@@ -155,17 +230,71 @@ public class BloodTestSchedulerGUI extends javax.swing.JFrame {
 
     private void addPatientBTNActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_addPatientBTNActionPerformed
         // TODO add your handling code here:
-        String[] priorities = new String[] {"Low", "Medium", "Urgent"};
-        String name = JOptionPane.showInputDialog(rootPane, "Enter patient's name: ");
-        int age = Integer.parseInt(JOptionPane.showInputDialog(rootPane, "Enter patient's age: "));
-        int priority = JOptionPane.showOptionDialog(rootPane, "", "Choose urgency: ", JOptionPane.DEFAULT_OPTION, JOptionPane.PLAIN_MESSAGE, null, priorities, priorities[0]);
-        int isFromWard = JOptionPane.showConfirmDialog(rootPane, "Are they coming from a hospital ward?");
-        ArrayList<String> gpNames = new ArrayList<>();
-        for (GP temp : gpList) {
-            gpNames.add(temp.getName());
-        }
-        int gp = JOptionPane.showOptionDialog(rootPane, "", "Choose their designated GP: ", JOptionPane.DEFAULT_OPTION, JOptionPane.PLAIN_MESSAGE, null, gpNames.toArray(), gpNames.get(0));
+        // disable action if there are no GPs on file
+        if (!gpList.isEmpty()) {
+            String name = JOptionPane.showInputDialog(rootPane, "Enter patient's name: ");
+            int age = Integer.parseInt(JOptionPane.showInputDialog(rootPane, "Enter patient's age: "));
+            ArrayList<String> gpNames = new ArrayList<>();
+            for (GP temp : gpList) {
+                gpNames.add(temp.getName());
+            }
+            int choice3 = JOptionPane.showOptionDialog(rootPane, "", "Choose their designated GP: ", JOptionPane.DEFAULT_OPTION, JOptionPane.PLAIN_MESSAGE, null, gpNames.toArray(), gpNames.get(0));
+            GP gp = gpList.get(choice3);
+            Patient patientRecord = new Patient(name, age, gp);
+            patientTree.insert(patientRecord, patientTree.getRoot());
+            patientTree.resetTraversal();
+        } else 
+            displayTA.setText("No GPs on record!");
     }//GEN-LAST:event_addPatientBTNActionPerformed
+
+    private void gpsBTNActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_gpsBTNActionPerformed
+        // TODO add your handling code here:
+        
+        displayTA.setText("");
+        for (GP gp : gpList) {
+            displayTA.append(gp.toString());
+        }
+    }//GEN-LAST:event_gpsBTNActionPerformed
+
+    private void newBTNActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_newBTNActionPerformed
+        // TODO add your handling code here:
+        // cannot set appointments if there are no patients on file
+        if (!patientTree.isEmpty()) {
+            PatientSelectorGUI selectGUI = new PatientSelectorGUI();
+            patientTree.traverseTree(patientTree.getRoot());
+            selectGUI.setPatientList(patientTree.getPatients());
+            selectGUI.setPriorityQueue(testQueue);
+            selectGUI.setVisible(true);
+        } else
+            displayTA.setText("No patients on file!");
+    }//GEN-LAST:event_newBTNActionPerformed
+
+    private void patientsBTNActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_patientsBTNActionPerformed
+        // TODO add your handling code here:
+        displayTA.setText("");
+        patientTree.resetTraversal();
+        patientTree.traverseTree(patientTree.getRoot());
+        for (Patient patient : patientTree.getPatients()) {
+            displayTA.append(patient.toString() + "\n");
+        }
+    }//GEN-LAST:event_patientsBTNActionPerformed
+
+    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
+        // TODO add your handling code here:
+        displayTA.setText(testQueue.head().toString());
+    }//GEN-LAST:event_jButton1ActionPerformed
+
+    private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
+        // TODO add your handling code here:
+        testQueue.dequeue();
+        displayTA.setText("Appointment removed from queue. Patient has been seen.");
+    }//GEN-LAST:event_jButton2ActionPerformed
+
+    private void jButton3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton3ActionPerformed
+        // TODO add your handling code here:
+        testQueue.dequeue();
+        displayTA.setText("Appointment removed from queue. Patient did not turn up!");
+    }//GEN-LAST:event_jButton3ActionPerformed
 
     /**
      * @param args the command line arguments
@@ -206,6 +335,10 @@ public class BloodTestSchedulerGUI extends javax.swing.JFrame {
     private javax.swing.JButton addDoctorBTN;
     private javax.swing.JButton addPatientBTN;
     private javax.swing.JTextArea displayTA;
+    private javax.swing.JButton gpsBTN;
+    private javax.swing.JButton jButton1;
+    private javax.swing.JButton jButton2;
+    private javax.swing.JButton jButton3;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JButton loadBTN;
     private javax.swing.JButton newBTN;
@@ -213,5 +346,6 @@ public class BloodTestSchedulerGUI extends javax.swing.JFrame {
     private javax.swing.JButton patientsBTN;
     private javax.swing.JButton queueBTN;
     private javax.swing.JButton saveBTN;
+    private javax.swing.JLabel titleLBL;
     // End of variables declaration//GEN-END:variables
 }

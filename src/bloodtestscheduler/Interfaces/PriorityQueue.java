@@ -30,4 +30,6 @@ public interface PriorityQueue {
     public boolean isEmpty();
     
     public String printQueue();
+    
+    public int calculatePriority(String priority);
 }

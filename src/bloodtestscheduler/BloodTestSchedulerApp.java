@@ -17,7 +17,6 @@ public class BloodTestSchedulerApp {
         // TODO code application logic here
         BloodTestSchedulerGUI gui = new BloodTestSchedulerGUI();
         gui.setVisible(true);
-        PatientBinaryTree pbtree = new PatientBinaryTree();
     }
     
 }

@@ -15,32 +15,74 @@ public class PatientPriorityQueue implements PriorityQueue {
     @Override
     public void enqueue(Object object, String priority) {
         // add patient to the queue based on their priority
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+        boolean foundPosition = false;
+        int i = 0;
+        if (queue.isEmpty()) {
+            // creates the head
+            queue.add(object);
+            return;
+        }
+        while (!foundPosition) {
+            // if the current element in the queue has a lower priority than the new one,
+            // insert the new element at the current position
+            if (calculatePriority(((Appointment)queue.get(i)).getPriority()) < calculatePriority(priority)) {
+                queue.add(i, object);
+                foundPosition = true;
+            }
+            else {
+                i++;
+                // join the back of the queue
+                if (i == queue.size() ) {
+                    queue.add(object);
+                    return;
+                }
+            }
+        }
     }
 
     @Override
     public void dequeue() {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+        queue.remove(0);
     }
 
     @Override
     public Object head() {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+        return queue.get(0);
     }
 
     @Override
     public int size() {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+        return queue.size();
     }
 
     @Override
     public boolean isEmpty() {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+        return queue.isEmpty();
     }
 
     @Override
     public String printQueue() {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+        String output = "";
+        int i = 0;
+        for (Object tempObj : queue) {
+            i++;
+            Appointment apt = (Appointment)tempObj;
+            output += i + ": " + apt.toString() + "\n";
+        }
+        return output;
     }
-    
+
+    @Override
+    public int calculatePriority(String priority) {
+        switch (priority) {
+            case "Low":
+                return 1;
+            case "Medium":
+                return 2;
+            case "Urgent":
+                return 3;
+            default:
+                return 0;
+        }
+    }  
 }

@@ -6,6 +6,7 @@ package bloodtestscheduler.Interfaces;
 
 import bloodtestscheduler.Node;
 import bloodtestscheduler.Patient;
+import java.util.ArrayList;
 
 /**
  *
@@ -21,6 +22,8 @@ public interface BinarySearchTree {
     
     public Node getRoot();
     
+    public ArrayList<Patient> getPatients();
+    
     public void insert(Patient object, Node currentNode);
     
     public int size();
@@ -30,5 +33,9 @@ public interface BinarySearchTree {
     public boolean isEmpty();
     
     public void print(Node currentNode);
+    
+    public void traverseTree(Node currentNode);
+    
+    public void resetTraversal();
     
 }

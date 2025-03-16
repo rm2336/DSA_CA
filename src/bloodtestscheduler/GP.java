@@ -50,5 +50,9 @@ public class GP {
         this.phoneNo = phoneNo;
     }
     
-    
+    @Override
+    public String toString() {
+        return "Name: " + name + "\n" + "Address: " + address +
+                "\n" + "Phone No.: " + phoneNo;
+    }
 }

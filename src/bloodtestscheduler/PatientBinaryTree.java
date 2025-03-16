@@ -5,6 +5,7 @@
 package bloodtestscheduler;
 
 import bloodtestscheduler.Interfaces.BinarySearchTree;
+import java.util.ArrayList;
 
 /**
  *
@@ -15,9 +16,11 @@ import bloodtestscheduler.Interfaces.BinarySearchTree;
 public class PatientBinaryTree implements BinarySearchTree {
 
     private Node root;
+    private ArrayList<Patient> patientList;
     
     PatientBinaryTree() {
         root = null;
+        patientList = new ArrayList<>();
     }
     
     public Node getRoot() {
@@ -70,7 +73,7 @@ public class PatientBinaryTree implements BinarySearchTree {
 
     @Override
     public boolean isEmpty() {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+        return (root == null);
     }
 
     @Override
@@ -81,4 +84,26 @@ public class PatientBinaryTree implements BinarySearchTree {
             if (currentNode.getRightChild() != null)
                 print(currentNode.getRightChild());
         }
+
+    @Override
+    public ArrayList<Patient> getPatients() {
+        return patientList;
+    }
+
+    @Override
+    public void traverseTree(Node currentNode) {
+        if (currentNode == null)
+            return;
+        else if (currentNode.getElement() != null)
+            patientList.add(currentNode.getElement());
+        if (currentNode.getLeftChild() != null)
+            traverseTree(currentNode.getLeftChild());
+        if (currentNode.getRightChild() != null)
+            traverseTree(currentNode.getRightChild());
+    }
+
+    @Override
+    public void resetTraversal() {
+        patientList.clear();
+    }
 }

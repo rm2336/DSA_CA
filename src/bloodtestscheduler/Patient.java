@@ -16,23 +16,24 @@ import bloodtestscheduler.GP;
 public class Patient {
     private String name;
     private int age;
-    private String priority;
-    private boolean isFromWard;
     private GP doctor;
     
     Patient() {
         name = "";
         age = 0;
-        priority = "";
-        isFromWard = false;
         doctor = null;
     }
+    // broader constructor for patient records
+    Patient(String name, int age, GP doctor) {
+        this.name = name;
+        this.age = age;
+        this.doctor = doctor;
+    }
     
+    // constructor for the blood test queue
     Patient(String name, int age, String priority, boolean isFromWard, GP doctor) {
         this.name = name;
         this.age = age;
-        this.priority = priority;
-        this.isFromWard = isFromWard;
         this.doctor = doctor;
     }
 
@@ -52,21 +53,6 @@ public class Patient {
         this.age = age;
     }
 
-    public String getPriority() {
-        return priority;
-    }
-
-    public void setPriority(String priority) {
-        this.priority = priority;
-    }
-
-    public boolean isIsFromWard() {
-        return isFromWard;
-    }
-
-    public void setIsFromWard(boolean isFromWard) {
-        this.isFromWard = isFromWard;
-    }
 
     public GP getDoctor() {
         return doctor;
@@ -76,4 +62,9 @@ public class Patient {
         this.doctor = doctor;
     }
     
+    @Override
+    public String toString() {
+        return "Name: " + name + "\n" + "Age: " + age
+                + "\n" + "GP: " + doctor;
+    }
 }
