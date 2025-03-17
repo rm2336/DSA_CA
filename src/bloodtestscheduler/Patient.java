@@ -14,26 +14,24 @@ import bloodtestscheduler.GP;
  * and their GP details.
  */
 public class Patient {
-    private String name;
-    private int age;
+    private String name, secondName;
+    private int day, month, year;
     private GP doctor;
     
     Patient() {
         name = "";
-        age = 0;
+        day = 0;
+        month = 0;
+        year = 0;
         doctor = null;
     }
-    // broader constructor for patient records
-    Patient(String name, int age, GP doctor) {
+    // constructor for patient records
+    Patient(String name, String secondName, int day, int month, int year, GP doctor) {
         this.name = name;
-        this.age = age;
-        this.doctor = doctor;
-    }
-    
-    // constructor for the blood test queue
-    Patient(String name, int age, String priority, boolean isFromWard, GP doctor) {
-        this.name = name;
-        this.age = age;
+        this.secondName = secondName;
+        this.day = day;
+        this.month = month;
+        this.year = year;
         this.doctor = doctor;
     }
 
@@ -45,14 +43,37 @@ public class Patient {
         this.name = name;
     }
 
-    public int getAge() {
-        return age;
+    public String getSecondName() {
+        return secondName;
     }
 
-    public void setAge(int age) {
-        this.age = age;
+    public void setSecondName(String secondName) {
+        this.secondName = secondName;
     }
 
+    public int getDay() {
+        return day;
+    }
+
+    public void setDay(int day) {
+        this.day = day;
+    }
+
+    public int getMonth() {
+        return month;
+    }
+
+    public void setMonth(int month) {
+        this.month = month;
+    }
+
+    public int getYear() {
+        return year;
+    }
+
+    public void setYear(int year) {
+        this.year = year;
+    }
 
     public GP getDoctor() {
         return doctor;
@@ -62,9 +83,13 @@ public class Patient {
         this.doctor = doctor;
     }
     
+    public String getDOB() {
+        return day + "/" + month + "/" + year;
+    }
+    
     @Override
     public String toString() {
-        return "Name: " + name + "\n" + "Age: " + age
+        return "Name: " + name + "\n" + "Second Name: " + secondName + " \n" + "DOB: " + getDOB() 
                 + "\n" + "GP: " + doctor;
     }
 }

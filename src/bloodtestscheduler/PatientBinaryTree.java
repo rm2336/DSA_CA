@@ -33,19 +33,69 @@ public class PatientBinaryTree implements BinarySearchTree {
         if (currentNode == null) {
             root = new Node(object);
         } else {    // check if the object to be inserted is less than or greater than the parent
-            if (object.getName().compareTo(currentNode.getElement().getName()) < 0) {
+            if (object.getSecondName().compareTo(currentNode.getElement().getSecondName()) < 0) {
+                System.out.println(object.getSecondName() + " comes before " + currentNode.getElement().getSecondName());
                 if (currentNode.getLeftChild() == null) {
                     currentNode.setLeftChild(new Node(object));
                 }
                 else
                     insert(object, currentNode.getLeftChild());
             }
-            else if (object.getName().compareTo(currentNode.getElement().getName()) > 0) {
+            else if (object.getSecondName().compareTo(currentNode.getElement().getSecondName()) > 0) {
+                System.out.println(object.getSecondName() + " comes after " + currentNode.getElement().getSecondName());
                 if (currentNode.getRightChild() == null) {
                     currentNode.setRightChild(new Node(object));
                 }
                 else
                     insert(object, currentNode.getRightChild());
+            } // check first name if second names match up
+            else if (object.getName().compareTo(currentNode.getElement().getName()) < 0) {
+                System.out.println(object.getName() + " comes before " + currentNode.getElement().getName());
+                if (currentNode.getLeftChild() == null) {
+                    currentNode.setLeftChild(new Node(object));
+                }
+                else
+                    insert(object, currentNode.getLeftChild());                
+            }
+            else if (object.getName().compareTo(currentNode.getElement().getName()) > 0) {
+                System.out.println(object.getName() + " comes after " + currentNode.getElement().getName());
+                if (currentNode.getRightChild() == null) {
+                    currentNode.setRightChild(new Node(object));
+                }
+                else
+                    insert(object, currentNode.getRightChild());                
+            } // compare dates of birth lexicographically if names are identical
+            else if (object.getDOB().compareTo(currentNode.getElement().getDOB()) < 0) {
+                System.out.println(object.getDOB() + " comes before " + currentNode.getElement().getDOB());
+                if (currentNode.getLeftChild() == null) {
+                    currentNode.setLeftChild(new Node(object));
+                }
+                else
+                    insert(object, currentNode.getLeftChild());                
+            }
+            else if (object.getDOB().compareTo(currentNode.getElement().getDOB()) > 0) {
+                System.out.println(object.getDOB() + " comes after " + currentNode.getElement().getDOB());
+                if (currentNode.getRightChild() == null) {
+                    currentNode.setRightChild(new Node(object));
+                }
+                else
+                    insert(object, currentNode.getRightChild());                
+            } // compare GP names if DOBs match up
+            else if (object.getDoctor().getName().compareTo(currentNode.getElement().getDoctor().getName()) < 0) {
+                System.out.println(object.getDoctor().getName() + " comes before " + currentNode.getElement().getDoctor().getName());
+                if (currentNode.getLeftChild() == null) {
+                    currentNode.setLeftChild(new Node(object));
+                }
+                else
+                    insert(object, currentNode.getLeftChild());                
+            }
+            else if (object.getDoctor().getName().compareTo(currentNode.getElement().getDoctor().getName()) > 0) {
+                System.out.println(object.getDoctor().getName() + " comes after " + currentNode.getElement().getDoctor().getName());
+                if (currentNode.getRightChild() == null) {
+                    currentNode.setRightChild(new Node(object));
+                }
+                else
+                    insert(object, currentNode.getRightChild());  
             }
         }
     }
@@ -58,10 +108,11 @@ public class PatientBinaryTree implements BinarySearchTree {
     @Override
     public Node search(String query, Node currentNode) {
         if (currentNode == null) {
+            System.out.println("No matches");
             return null;
         }
         else {
-            if (query.equals(currentNode.getElement()))
+            if (query.equals(currentNode.getElement().getName()))
                 return currentNode;
             else if (query.compareTo(((Patient)currentNode.getElement()).getName()) < 0) {
                 return search(query, currentNode.getLeftChild());

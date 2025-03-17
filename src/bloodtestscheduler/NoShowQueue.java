@@ -47,8 +47,9 @@ public class NoShowQueue implements Queue{
     @Override
     public String printQueue() {
         String output = "";
-        for (int i = 0; i < size(); i++)
-            output += i + ": " + queue.get(i).toString() + "\n";
+        int k = 1;
+        for (int i = size() - 1; i >= 0; i--, k++)
+            output += k + ": " + queue.get(i).toString() + "\n\n";
         return output;
     }
     

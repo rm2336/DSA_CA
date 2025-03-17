@@ -16,17 +16,45 @@ public class PatientSelectorGUI extends javax.swing.JFrame {
     private PatientPriorityQueue testQueueRef;
     private String priority = "Low";
     private boolean fromWard = false;
+    private BloodTestSchedulerGUI refGUI;
     /**
      * Creates new form PatientSelectorGUI
      */
     public PatientSelectorGUI() {
         initComponents();
+        patientList = new ArrayList<>();
     }
 
     public void setPatientList(ArrayList<Patient> list) {
-        patientList = list;
-        for (Patient iterator : patientList)
-            patientsCB.addItem(iterator.getName());
+        int i = 1;
+        patientList.addAll(list);
+        if (patientList.size() > 1)
+            bubbleSortPatients(patientList);
+        for (Patient iterator : patientList) {
+            patientsCB.addItem(i + ": " + iterator.getSecondName() + ", " + iterator.getName());
+            i++;
+        }
+    }
+    
+    public void setRefGUI(BloodTestSchedulerGUI ref) {
+        refGUI = ref;
+    }
+    
+    public void bubbleSortPatients(ArrayList<Patient> list) {
+        boolean moreSwapsNeeded = true;
+        while (moreSwapsNeeded) {
+            for (int i = 0; i < patientList.size() - 1; i++) {
+                moreSwapsNeeded = false;
+                for (int j = 0; j < patientList.size() - 1; j++) {
+                    if (patientList.get(j).getSecondName().compareTo(patientList.get(j + 1).getSecondName()) > 0) {
+                        moreSwapsNeeded = true;
+                        Patient tempObj = patientList.get(j + 1);
+                        patientList.set(j + 1, patientList.get(j));
+                        patientList.set(j, tempObj);
+                    }
+                }
+            }
+        }
     }
     
     public void setPriorityQueue(PatientPriorityQueue queue) {
@@ -197,24 +225,20 @@ public class PatientSelectorGUI extends javax.swing.JFrame {
 
     private void patientsCBActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_patientsCBActionPerformed
         // TODO add your handling code here:
-        if (patientsCB.getSelectedItem() != null)
-            for (int i = 0; i < patientList.size(); i++)
-                if (patientsCB.getSelectedItem().toString().equals(patientList.get(i).getName()))
-                    displayTA.setText(patientList.get(i).toString());
+        if (patientsCB.getSelectedItem() != null) 
+                displayTA.setText(patientList.get(patientsCB.getSelectedIndex()).toString());
     }//GEN-LAST:event_patientsCBActionPerformed
 
     private void confirmBTNActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_confirmBTNActionPerformed
         // TODO add your handling code here:
         if (patientsCB.getSelectedItem() != null) {
             // locate patient in list
-            for (int i = 0; i < patientList.size(); i++)
-                if (patientsCB.getSelectedItem().toString().equals(patientList.get(i).getName())) {
-                    Patient tempPatient = patientList.get(i);
-                    Appointment tempApt = new Appointment(tempPatient, priority, fromWard);
-                    testQueueRef.enqueue(tempApt, priority);
-                    patientsCB.setSelectedItem(null);
-                    break;
-                }                   
+            Patient tempPatient = patientList.get(patientsCB.getSelectedIndex());
+            Appointment tempApt = new Appointment(tempPatient, priority, fromWard);
+            testQueueRef.enqueue(tempApt, priority);
+            patientsCB.setSelectedItem(null);
+            refGUI.printQueue();
+            this.dispose();
         }
     }//GEN-LAST:event_confirmBTNActionPerformed
 

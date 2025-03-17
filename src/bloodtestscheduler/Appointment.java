@@ -56,7 +56,7 @@ public class Appointment {
     
     @Override
     public String toString() {
-        return "Name: " + patient.getName() + "\n" + "Age: " + patient.getAge()
+        return "Name: " + patient.getName() + " " + patient.getSecondName() + "\n" + "DOB: " + patient.getDOB()
                 + "\n" + "GP: " + patient.getDoctor().getName() +
                 "\n" + "Urgency: " + priority + "\n" + "Referred From Ward: " + isFromWard;
     }
